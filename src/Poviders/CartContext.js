@@ -15,10 +15,23 @@ export function CartProvider({children}) {
     }, [cart]);
 
     const addToCart = (item) => {
-        setCart([...cart, item])
+
+        const existingProduct = cart.find(cartItem => cartItem.product.id === item.product.id);
+
+        if (existingProduct) {
+            // Le produit est déjà dans le panier, mise à jour de la quantité
+            setCart(cart.map(cartItem => 
+                cartItem.product.id === item.product.id 
+                    ? { ...cartItem, quantity: cartItem.quantity + item.quantity } 
+                    : cartItem
+            ));
+        } else {
+            // Le produit n'est pas dans le panier, ajout du produit
+            setCart(prevCart => [...prevCart, item]);
+        }
     }
     const removeFromCart = (itemId) => {
-        setCart(cart.filter(product => product.id !== itemId))
+        setCart(cart.filter(item => item.product.id !== itemId));
     }
     const resetCart = () => {
         setCart([])

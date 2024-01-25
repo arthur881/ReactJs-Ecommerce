@@ -37,6 +37,9 @@ const ItemList = styled.div`
 
 export default function CartList() {
     let { cart, removeFromCart } = useCart()
+    const handleRMToCart = (productId) => {
+        removeFromCart(productId);
+    }
     
     return (
         <div>
@@ -54,13 +57,13 @@ export default function CartList() {
                         <button>+</button>
                     </div>
                     <div>
-                        <p>{item.product.price}€</p>
+                        <p>{item.product.price}€ each</p>
                     </div>
                     <div>
-                        <p>{item.quantity * item.product.price}€</p>
+                        <p>{(item.quantity * item.product.price).toFixed(2)}€</p>
                     </div>
                     <div>
-                    <button onClick={removeFromCart}>
+                    <button onClick={() => handleRMToCart(item.product.id)}>
                         Remove
                     </button>
                     </div>

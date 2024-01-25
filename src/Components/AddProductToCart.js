@@ -15,18 +15,11 @@ const CartCountWrapper = styled.div`
 export default function AddProductToCart(product) {
 
     const [cartCount, setCartCount] = useState(1);
-    let { addToCart, cart } = useCart()
+    let { addToCart } = useCart()
 
 
     const handleAddToCart = () => {
-        const productInCart = cart.find(item => item.product.id === product.id);
-        if (productInCart) {
-            console.log(`le produit etait deja dans le panier, nous en avons rejouter ${cartCount} de plus`);
-            productInCart.quantity += cartCount;
-        } else {
-            console.log('le produit n\'etais pas dans le panier, il a ete ajouté');
-            addToCart({product, quantity : cartCount});
-        }
+        addToCart({ product: product, quantity: cartCount });
         setCartCount(1);
     };
 
@@ -51,7 +44,7 @@ export default function AddProductToCart(product) {
                 </button>
             </CartCountWrapper>
             <button onClick={handleAddToCart}>
-                Add to cart ({cartCount*product.price}€)
+                Add to cart ({(cartCount*product.price).toFixed(2)}€)
             </button>
         </div>
     )
